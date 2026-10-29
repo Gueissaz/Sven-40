@@ -1,28 +1,41 @@
 <!DOCTYPE html>
-<html lang="de" class="h-full bg-[#07090e] text-slate-100 selection:bg-amber-500 selection:text-black">
+<html lang="de" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SVEN 4.0 • The Cities Trips Weekend (17.–20. Juni 2027)</title>
 
-  <!-- Open Graph Meta-Tags für Bild-Vorschau in WhatsApp & Signal -->
+  <!-- Open Graph & Social Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://gueissaz.github.io/Sven-40/">
   <meta property="og:title" content="SVEN 4.0 – The Cities Trips Weekend">
   <meta property="og:description" content="17.–20. Juni 2027 • Jetzt abstimmen & anmelden">
   <meta property="og:image" content="https://gueissaz.github.io/Sven-40/poster.jpg">
-  <meta property="og:url" content="https://gueissaz.github.io/Sven-40/">
-  <meta property="og:type" content="website">
-  
+  <meta property="og:image:secure_url" content="https://gueissaz.github.io/Sven-40/poster.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SVEN 4.0 – The Cities Trips Weekend">
+  <meta name="twitter:description" content="17.–20. Juni 2027 • Jetzt abstimmen & anmelden">
+  <meta name="twitter:image" content="https://gueissaz.github.io/Sven-40/poster.jpg">
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  
+
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
+
   <!-- Phosphor Icons -->
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
-  
+
+  <!-- Supabase Client v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
     tailwind.config = {
       theme: {
@@ -46,946 +59,567 @@
   </script>
 
   <style>
+    body {
+      background-color: #05070e;
+      color: #e2e8f0;
+    }
     .gold-metallic-text {
-      background: linear-gradient(180deg, #ffffff 0%, #fef08a 30%, #f59e0b 70%, #b45309 100%);
+      background: linear-gradient(180deg, #ffffff 0%, #fef08a 35%, #f59e0b 70%, #b45309 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 25px rgba(245, 158, 11, 0.4);
+      text-shadow: 0 0 25px rgba(245, 158, 11, 0.35);
     }
-    
-    .cyan-glow-text {
-      color: #38bdf8;
-      text-shadow: 0 0 16px rgba(56, 189, 248, 0.75), 0 0 30px rgba(56, 189, 248, 0.4);
-    }
-
     .glass-card {
-      background: rgba(12, 16, 28, 0.82);
+      background: rgba(13, 18, 32, 0.82);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(245, 158, 11, 0.15);
+    }
+    .glass-card-subtle {
+      background: rgba(10, 14, 26, 0.75);
+      backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
-
     .glass-input {
       background: rgba(6, 9, 18, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.14);
     }
-
-    @keyframes spin-cw {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    .glass-input:focus {
+      border-color: #f59e0b;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
     }
-    @keyframes spin-ccw {
-      0% { transform: rotate(360deg); }
-      100% { transform: rotate(0deg); }
-    }
-    .spin-ring-cw { animation: spin-cw 40s linear infinite; }
-    .spin-ring-ccw { animation: spin-ccw 28s linear infinite; }
   </style>
 </head>
-<body class="min-h-full font-sans antialiased flex flex-col justify-between relative bg-[#07090e] text-slate-100 overflow-x-hidden">
+<body class="min-h-screen selection:bg-amber-500/30 selection:text-amber-200">
 
-  <!-- Fixed Cosmic Ambience Background -->
-  <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[850px] h-[850px] bg-gradient-to-b from-amber-500/15 via-cyan-600/10 to-transparent rounded-full blur-[140px]"></div>
-    <div class="absolute bottom-10 right-0 w-96 h-96 bg-purple-900/15 rounded-full blur-[120px]"></div>
-  </div>
-
-  <!-- Header Navigation -->
-  <header class="w-full border-b border-slate-800/80 bg-[#07090e]/90 backdrop-blur-md sticky top-0 z-50">
-    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-full border border-amber-400/60 flex items-center justify-center bg-slate-900 text-amber-400 font-cinzel font-black text-xs shadow-[0_0_12px_rgba(245,158,11,0.3)]">
-          4.0
-        </div>
-        <div>
-          <span class="text-[10px] uppercase tracking-widest text-amber-400 font-mono font-bold block">Sven's 40. Geburtstag</span>
-          <h1 class="text-xs sm:text-sm font-extrabold text-white tracking-tight">The Cities Trips Weekend</h1>
-        </div>
+  <!-- Hero Poster Section -->
+  <header class="relative w-full max-w-4xl mx-auto pt-6 px-4 pb-4">
+    <div class="relative overflow-hidden rounded-3xl border border-amber-500/30 shadow-[0_0_50px_rgba(245,158,11,0.18)]">
+      <img 
+        src="poster.jpg" 
+        alt="Sven 4.0 - The Cities Trips Weekend" 
+        class="w-full h-auto object-cover block"
+        onerror="this.style.display='none'; document.getElementById('poster-fallback').classList.remove('hidden');"
+      >
+      <!-- Fallback falls poster.jpg lokal nicht erreichbar ist -->
+      <div id="poster-fallback" class="hidden p-12 text-center bg-gradient-to-b from-slate-900 to-black">
+        <h1 class="font-cinzel text-4xl sm:text-6xl font-black gold-metallic-text tracking-widest mb-3">SVEN 4.0</h1>
+        <p class="font-cinzel text-lg sm:text-xl tracking-wider text-amber-200">THE CITIES TRIPS WEEKEND</p>
+        <p class="font-mono text-cyan-400 mt-2 text-sm sm:text-base">17.–20. JUNI 2027</p>
+        <p class="font-cinzel text-xl sm:text-2xl font-bold tracking-widest text-cyan-300 mt-4">DECIDE OUR DESTINY</p>
       </div>
-
-      <!-- Navigation Tabs -->
-      <nav class="flex bg-slate-900/90 p-1 rounded-xl border border-slate-800 text-xs font-semibold">
-        <button id="nav-vote" onclick="switchView('vote')" class="px-3.5 py-1.5 rounded-lg text-white bg-gradient-to-r from-amber-500 to-orange-600 flex items-center gap-1.5 shadow-md cursor-pointer">
-          <i class="ph-bold ph-check-circle"></i>
-          <span>Abstimmen</span>
-        </button>
-        <button id="nav-results" onclick="switchView('results')" class="px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer">
-          <i class="ph-bold ph-chart-bar"></i>
-          <span>Ergebnisse</span>
-          <span id="nav-badge" class="px-1.5 py-0.2 rounded-full bg-slate-800 text-[10px] text-amber-300 ml-0.5">0</span>
-        </button>
-      </nav>
     </div>
   </header>
 
-  <!-- Main Container -->
-  <main class="max-w-4xl mx-auto px-4 py-6 sm:py-8 flex-grow w-full space-y-8">
-
-    <!-- HERO LANDING POSTER -->
-    <section class="glass-card rounded-3xl overflow-hidden border border-amber-500/30 shadow-[0_0_40px_rgba(245,158,11,0.15)] relative">
-      
-      <!-- Primary Image Rendering with Visual Fallback -->
-      <div class="relative w-full bg-[#04060c] flex flex-col items-center justify-center overflow-hidden">
-        
-        <!-- Bild-Container: Lädt poster.jpg / 14581.jpg direkt, falls abgelegt -->
-        <img 
-          id="hero-poster-img"
-          src="poster.jpg" 
-          alt="SVEN 4.0 - The Cities Trips Weekend (17.–20. Juni 2027)" 
-          onerror="handleImageFallback(this)"
-          class="w-full h-auto max-h-[640px] object-cover object-center"
-        >
-
-        <!-- Inline Visual Artwork (wird genutzt, falls poster.jpg lokal noch nicht liegt) -->
-        <div id="hero-vector-poster" class="hidden w-full relative px-4 pt-12 pb-10 sm:px-10 sm:pt-16 sm:pb-14 flex flex-col items-center text-center overflow-hidden">
-          
-          <!-- Stars & Cosmic Glow -->
-          <div class="absolute inset-0 pointer-events-none opacity-45">
-            <div class="absolute w-1 h-1 bg-white rounded-full top-8 left-1/4 shadow-[0_0_8px_#fff]"></div>
-            <div class="absolute w-1.5 h-1.5 bg-amber-200 rounded-full top-20 right-1/4 shadow-[0_0_10px_#fde68a]"></div>
-            <div class="absolute w-1 h-1 bg-cyan-200 rounded-full top-1/2 left-10 shadow-[0_0_8px_#38bdf8]"></div>
-            <div class="absolute w-1 h-1 bg-white rounded-full top-1/3 right-12 shadow-[0_0_8px_#fff]"></div>
-            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-950/40 via-transparent to-transparent"></div>
-          </div>
-
-          <!-- Mountain Silhouette -->
-          <div class="absolute bottom-0 inset-x-0 h-32 pointer-events-none opacity-40 flex items-end">
-            <svg viewBox="0 0 1200 240" class="w-full h-full" preserveAspectRatio="none">
-              <path d="M0,240 L0,180 L120,120 L240,190 L380,90 L520,170 L680,60 L820,160 L980,100 L1120,180 L1200,140 L1200,240 Z" fill="#010308"/>
-              <path d="M0,240 L0,200 L160,150 L340,210 L500,130 L660,190 L850,110 L1020,190 L1200,160 L1200,240 Z" fill="#060b18" opacity="0.7"/>
-            </svg>
-          </div>
-
-          <!-- Sacred Geometry Rotation Rings -->
-          <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div class="w-[440px] h-[440px] sm:w-[560px] sm:h-[560px] border border-amber-400/35 rounded-full spin-ring-cw flex items-center justify-center">
-              <div class="w-[400px] h-[400px] sm:w-[500px] sm:h-[500px] border border-amber-300/20 rounded-full border-dashed"></div>
-            </div>
-            <div class="absolute w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] border border-cyan-400/40 rounded-full spin-ring-ccw"></div>
-          </div>
-
-          <!-- Porträt Sven (Fedora & Sonnenbrille) -->
-          <div class="relative z-20 mb-6">
-            <div class="w-44 h-44 sm:w-52 sm:h-52 rounded-full p-1.5 bg-gradient-to-tr from-amber-400 via-orange-500 to-cyan-400 shadow-[0_0_35px_rgba(245,158,11,0.5)]">
-              <div class="w-full h-full rounded-full overflow-hidden bg-slate-900 border-2 border-slate-950">
-                <svg viewBox="0 0 240 240" class="w-full h-full select-none" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <linearGradient id="pSkin" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stop-color="#f8d5bb"/>
-                      <stop offset="100%" stop-color="#d69f7e"/>
-                    </linearGradient>
-                    <linearGradient id="pHat" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stop-color="#242b3d"/>
-                      <stop offset="100%" stop-color="#0a0e18"/>
-                    </linearGradient>
-                    <linearGradient id="pShades" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stop-color="#111827"/>
-                      <stop offset="60%" stop-color="#1f2937"/>
-                      <stop offset="100%" stop-color="#030712"/>
-                    </linearGradient>
-                  </defs>
-                  <rect width="240" height="240" fill="#040814"/>
-                  <circle cx="120" cy="120" r="110" fill="none" stroke="#f59e0b" stroke-width="1.2" stroke-opacity="0.35"/>
-                  <path d="M40 240 C50 188, 80 178, 120 178 C160 178, 190 188, 200 240 Z" fill="#1e293b"/>
-                  <polygon points="105,178 135,178 120,215" fill="#94a3b8"/>
-                  <rect x="103" y="145" width="34" height="40" fill="#d69f7e" rx="5"/>
-                  <path d="M80 115 C80 168, 98 178, 120 178 C142 178, 160 168, 160 115 C160 85, 80 85, 80 115 Z" fill="url(#pSkin)"/>
-                  <path d="M85 130 C85 166, 100 175, 120 175 C140 175, 155 166, 155 130 C155 148, 140 164, 120 164 C100 164, 85 148, 85 130 Z" fill="#926247" fill-opacity="0.45"/>
-                  <path d="M117 115 L120 133 L125 133" fill="none" stroke="#b07d5b" stroke-width="2.5" stroke-linecap="round"/>
-                  <path d="M102 142 C110 138, 117 141, 120 143 C123 141, 130 138, 138 142 C132 146, 108 146, 102 142 Z" fill="#784e36"/>
-                  <path d="M110 152 Q120 155 130 152" fill="none" stroke="#713f28" stroke-width="2.5" stroke-linecap="round"/>
-                  <!-- Sunglasses -->
-                  <g id="shades">
-                    <rect x="114" y="98" width="12" height="4" rx="2" fill="#000"/>
-                    <path d="M78 94 C82 93, 112 94, 114 96 C114 104, 111 118, 96 119 C82 120, 78 107, 78 94 Z" fill="url(#pShades)" stroke="#000" stroke-width="3"/>
-                    <path d="M126 96 C128 94, 158 93, 162 94 C162 107, 158 120, 144 119 C129 118, 126 104, 126 96 Z" fill="url(#pShades)" stroke="#000" stroke-width="3"/>
-                    <path d="M83 97 L95 97 L88 114 L82 114 Z" fill="#ffffff" fill-opacity="0.2"/>
-                    <path d="M131 97 L143 97 L136 114 L130 114 Z" fill="#ffffff" fill-opacity="0.2"/>
-                  </g>
-                  <!-- Fedora -->
-                  <g id="hat">
-                    <path d="M72 74 C70 42, 95 35, 120 38 C145 35, 170 42, 168 74 Z" fill="url(#pHat)"/>
-                    <path d="M96 37 C110 44, 130 44, 144 37" fill="none" stroke="#000000" stroke-width="4" stroke-opacity="0.6"/>
-                    <path d="M71 72 C90 77, 150 77, 169 72 L169 77 C150 82, 90 82, 71 77 Z" fill="#78350f"/>
-                    <path d="M42 77 C70 70, 170 70, 198 77 C204 79, 190 90, 120 89 C50 90, 36 79, 42 77 Z" fill="url(#pHat)" stroke="#050811" stroke-width="1.5"/>
-                  </g>
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          <!-- Typography -->
-          <div class="relative z-10 max-w-2xl">
-            <h2 class="text-4xl sm:text-6xl font-cinzel font-black tracking-wider gold-metallic-text uppercase">
-              SVEN 4.0
-            </h2>
-            <p class="text-xs sm:text-sm font-bold font-mono tracking-[0.25em] text-slate-300 uppercase mt-1">
-              THE CITIES TRIPS WEEKEND
-            </p>
-            <div class="text-sm sm:text-base font-bold font-mono text-amber-400 tracking-widest mt-2">
-              17.–20. JUNI 2027
-            </div>
-            <div class="text-xl sm:text-3xl font-extrabold cyan-glow-text tracking-widest uppercase mt-3">
-              DECIDE OUR DESTINY
-            </div>
-            <div class="text-[11px] sm:text-xs font-mono font-semibold text-slate-400 tracking-widest uppercase mt-4">
-              ANMELDEFRIST: ENDE NOVEMBER 2026
-            </div>
-          </div>
-
+  <!-- Countdown Banner -->
+  <section class="max-w-4xl mx-auto px-4 py-3">
+    <div class="glass-card rounded-2xl p-4 sm:p-5 text-center flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+          <i class="ph ph-hourglass-high text-xl"></i>
         </div>
-
-      </div>
-
-      <!-- EINLADUNG VON SVEN -->
-      <div class="p-6 sm:p-8 bg-gradient-to-b from-[#090d1a] to-[#060912] border-t border-slate-800">
-        <div class="max-w-2xl mx-auto">
-          
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-8 h-8 rounded-xl bg-amber-500/15 border border-amber-400/30 text-amber-400 flex items-center justify-center text-sm shadow-[0_0_12px_rgba(245,158,11,0.2)]">
-              <i class="ph-bold ph-envelope-simple"></i>
-            </div>
-            <h3 class="text-base font-bold text-white tracking-wide">Einladung von Sven</h3>
-          </div>
-
-          <div class="p-5 sm:p-6 rounded-2xl bg-[#080c18] border border-amber-500/20 shadow-xl space-y-3.5 text-xs sm:text-sm text-slate-200 leading-relaxed font-normal">
-            <p>
-              Hallo zäme! Hey, anstatt Sónar Festival z'Barcelona han i gmerkt, dass das viellicht nümm so altersgrecht isch für gwüssi Lüt – <span class="text-amber-300 font-semibold">und für mich selber.</span> Drum d'Alternative: mir mached en geile Städtetrip! Vom Datum her findi's mega: <strong class="text-white">17. bis 20. Juni 2027.</strong>
-            </p>
-            <p>
-              Ich gang sicher scho ab em Donnschtig, aber ihr chönd individuell luege, wie's für oi passt. Drum da die Umfrag zum gnau plane: wer debii isch, wer wenn cha und wo's ane gaht.
-            </p>
-            <p>
-              Fülled das bitte bis <strong class="text-amber-400 font-mono">Endi November 2026</strong> us, damit mir Bscheid wüssed. <strong class="text-white">Cheers!</strong>
-            </p>
-          </div>
-
-          <!-- Anmeldefrist & Countdown -->
-          <div class="mt-4 flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-slate-400 px-1">
-            <div class="flex items-center gap-1.5 text-amber-400 font-semibold">
-              <i class="ph-bold ph-hourglass-medium"></i>
-              <span>Fristende:</span>
-              <span id="countdown-timer" class="font-bold">Lade...</span>
-            </div>
-            <div class="text-slate-500">17.–20. Juni 2027</div>
-          </div>
-
+        <div class="text-left">
+          <p class="text-xs uppercase tracking-wider text-zinc-400 font-mono">Deadline für Entscheid</p>
+          <p class="text-sm font-semibold text-white">30. November 2026</p>
         </div>
       </div>
-    </section>
+      <div id="countdown" class="font-mono text-amber-300 text-sm sm:text-base tracking-wider bg-black/40 px-4 py-2 rounded-xl border border-amber-500/20">
+        Berechne Countdown...
+      </div>
+    </div>
+  </section>
 
-    <!-- VIEW 1: ABSTIMMUNGS-FORMULAR -->
-    <div id="view-vote" class="space-y-6">
-      <form id="poll-form" onsubmit="handlePollSubmit(event)" class="space-y-6">
+  <!-- Einladung von Sven -->
+  <section class="max-w-4xl mx-auto px-4 py-4">
+    <div class="glass-card rounded-3xl p-6 sm:p-8 relative">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-9 h-9 rounded-full bg-amber-500/15 border border-amber-500/40 flex items-center justify-center text-amber-400">
+          <i class="ph ph-chats-circle text-xl"></i>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-bold text-white tracking-wide">Einladung von Sven</h2>
+      </div>
 
-        <!-- 01: Name -->
-        <div class="glass-card rounded-2xl p-6 sm:p-7">
-          <div class="flex items-center gap-3 mb-4">
-            <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center font-mono font-bold text-xs">01</span>
-            <h3 class="text-base sm:text-lg font-bold text-white">Dein Name</h3>
-          </div>
-          <div>
-            <label for="user-name" class="block text-xs font-medium text-slate-400 mb-2">Wie heisst du? <span class="text-amber-400">*</span></label>
-            <input type="text" id="user-name" required placeholder="Vorname / Name" class="glass-input w-full rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 text-sm transition-all">
-          </div>
+      <div class="relative bg-black/40 rounded-2xl p-5 sm:p-6 border border-white/5 space-y-3 font-sans text-zinc-200 leading-relaxed text-sm sm:text-base">
+        <p class="text-amber-200/90 font-medium">„Hey zäme!“</p>
+        <p>
+          Anstatt am Sónar Festival in Barcelona ha ich gmerkt, dass das viellicht nüme so altersgrächt isch für gwüssi Lüt – und vor allem für mich selber!
+        </p>
+        <p>
+          Drum d'Alternative: Mir mached eifach en geile Städtetrip! Vom Datum her passt mir s'Wuchenend vom <strong class="text-amber-300">17. bis 20. Juni 2027</strong> perfekt. Ich würd sicher scho am Donnschtig ga – ihr chönd das ja individuell luege, wie's eu passt.
+        </p>
+        <p>
+          Drum da churz d'Umfrag, damit mer en gnauere Plan chönd mache, wer alles debii isch, weli Täg gönd und weli Stadt eu am meischte aamacht. Fülled das doch bitte bis <strong class="text-amber-300">Endi November 2026</strong> us – au wenn er kei Bock hend, dänn weiss ich Bescheid. 😉
+        </p>
+        <p class="text-zinc-400 text-xs sm:text-sm pt-2">
+          Cheers & fülled churz s'Formular us!
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Umfrage Formular -->
+  <main class="max-w-4xl mx-auto px-4 py-4">
+    <div class="glass-card rounded-3xl p-6 sm:p-8">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-9 h-9 rounded-full bg-amber-500/15 border border-amber-500/40 flex items-center justify-center text-amber-400">
+          <i class="ph ph-paper-plane-tilt text-xl"></i>
+        </div>
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold text-white tracking-wide">Deine Rückmeldung</h2>
+          <p class="text-xs text-zinc-400">Direkt in der gemeinsamen Datenbank gespeichert</p>
+        </div>
+      </div>
+
+      <form id="voteForm" class="space-y-6">
+        <!-- 1. Name -->
+        <div>
+          <label for="nameInput" class="block text-sm font-semibold text-zinc-200 mb-2">Dein Name *</label>
+          <input 
+            type="text" 
+            id="nameInput" 
+            required
+            placeholder="z.B. Marco, Beni, Roger..." 
+            class="glass-input w-full px-4 py-3 rounded-xl text-white placeholder-zinc-500"
+          >
         </div>
 
-        <!-- 02: Status -->
-        <div class="glass-card rounded-2xl p-6 sm:p-7">
-          <div class="flex items-center gap-3 mb-4">
-            <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center font-mono font-bold text-xs">02</span>
-            <div>
-              <h3 class="text-base sm:text-lg font-bold text-white">Bist du am Wochenende dabei?</h3>
-              <p class="text-xs text-slate-400">17. bis 20. Juni 2027</p>
-            </div>
-          </div>
-
+        <!-- 2. Status -->
+        <div>
+          <label class="block text-sm font-semibold text-zinc-200 mb-2">Bist du am Start?</label>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <label class="cursor-pointer p-4 rounded-xl border border-slate-800 bg-slate-950/70 hover:bg-slate-900 transition-all has-[:checked]:border-amber-400 has-[:checked]:bg-amber-500/10 has-[:checked]:shadow-[0_0_15px_rgba(245,158,11,0.2)]">
-              <input type="radio" name="participation" value="yes" required class="sr-only">
-              <span class="text-2xl mb-1 block">🔥</span>
-              <span class="font-bold text-sm text-white block">Fix debii</span>
-              <span class="text-xs text-slate-400 mt-0.5 block">Wochenende ist reserviert</span>
+            <label class="cursor-pointer">
+              <input type="radio" name="status" value="Fix debii" checked class="peer sr-only">
+              <div class="glass-card-subtle p-3.5 rounded-xl border border-white/10 text-center peer-checked:border-emerald-500 peer-checked:bg-emerald-500/15 transition-all">
+                <span class="block text-sm font-bold text-emerald-400">🎉 Fix debii</span>
+                <span class="text-xs text-zinc-400">Urlaub wird eingeplant</span>
+              </div>
             </label>
 
-            <label class="cursor-pointer p-4 rounded-xl border border-slate-800 bg-slate-950/70 hover:bg-slate-900 transition-all has-[:checked]:border-cyan-400 has-[:checked]:bg-cyan-500/10 has-[:checked]:shadow-[0_0_15px_rgba(56,189,248,0.2)]">
-              <input type="radio" name="participation" value="maybe" class="sr-only">
-              <span class="text-2xl mb-1 block">🤔</span>
-              <span class="font-bold text-sm text-white block">No unsicher (50:50)</span>
-              <span class="text-xs text-slate-400 mt-0.5 block">Muss es noch abklären</span>
+            <label class="cursor-pointer">
+              <input type="radio" name="status" value="No unsicher 50:50" class="peer sr-only">
+              <div class="glass-card-subtle p-3.5 rounded-xl border border-white/10 text-center peer-checked:border-amber-500 peer-checked:bg-amber-500/15 transition-all">
+                <span class="block text-sm font-bold text-amber-400">🤔 Unsicher (50:50)</span>
+                <span class="text-xs text-zinc-400">Hängt von Terminen ab</span>
+              </div>
             </label>
 
-            <label class="cursor-pointer p-4 rounded-xl border border-slate-800 bg-slate-950/70 hover:bg-slate-900 transition-all has-[:checked]:border-rose-500 has-[:checked]:bg-rose-500/10">
-              <input type="radio" name="participation" value="no" class="sr-only">
-              <span class="text-2xl mb-1 block">😢</span>
-              <span class="font-bold text-sm text-white block">Chan leider nöd</span>
-              <span class="text-xs text-slate-400 mt-0.5 block">Passt terminlich nicht</span>
+            <label class="cursor-pointer">
+              <input type="radio" name="status" value="Chan leider nöd" class="peer sr-only">
+              <div class="glass-card-subtle p-3.5 rounded-xl border border-white/10 text-center peer-checked:border-red-500 peer-checked:bg-red-500/15 transition-all">
+                <span class="block text-sm font-bold text-red-400">😢 Chan leider nöd</span>
+                <span class="text-xs text-zinc-400">Schon verplant</span>
+              </div>
             </label>
           </div>
         </div>
 
-        <!-- 03: Tage -->
-        <div class="glass-card rounded-2xl p-6 sm:p-7">
-          <div class="flex items-center gap-3 mb-2">
-            <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center font-mono font-bold text-xs">03</span>
-            <div>
-              <h3 class="text-base sm:text-lg font-bold text-white">An welchen Tagen kannst du?</h3>
-              <p class="text-xs text-slate-400">Wähle alle Tage, an denen du dabei wärst:</p>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
-            <label class="cursor-pointer p-3.5 rounded-xl border border-slate-800 bg-slate-950/70 hover:border-slate-700 transition-all has-[:checked]:border-amber-400 has-[:checked]:bg-amber-500/15">
-              <div class="flex justify-between items-center mb-1">
-                <span class="text-[11px] font-mono font-bold text-amber-400">DO</span>
-                <input type="checkbox" name="days" value="thu" class="rounded bg-slate-900 border-slate-700 text-amber-500 focus:ring-0">
+        <!-- 3. Tage -->
+        <div>
+          <label class="block text-sm font-semibold text-zinc-200 mb-2">An welchen Tagen wärst du dabei? (Mehrfachauswahl)</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <label class="cursor-pointer">
+              <input type="checkbox" name="days" value="Do 17.06." checked class="peer sr-only">
+              <div class="glass-card-subtle p-3 rounded-xl border border-white/10 text-center peer-checked:border-cyan-400 peer-checked:bg-cyan-500/15 transition-all">
+                <span class="block text-xs text-zinc-400 uppercase font-mono">Do, 17. Jun</span>
+                <span class="text-sm font-bold text-white peer-checked:text-cyan-300">Anreise</span>
               </div>
-              <div class="text-sm font-bold text-white">17. Juni 2027</div>
-              <div class="text-[11px] text-slate-400">Donnerstag</div>
             </label>
 
-            <label class="cursor-pointer p-3.5 rounded-xl border border-slate-800 bg-slate-950/70 hover:border-slate-700 transition-all has-[:checked]:border-amber-400 has-[:checked]:bg-amber-500/15">
-              <div class="flex justify-between items-center mb-1">
-                <span class="text-[11px] font-mono font-bold text-amber-400">FR</span>
-                <input type="checkbox" name="days" value="fri" class="rounded bg-slate-900 border-slate-700 text-amber-500 focus:ring-0">
+            <label class="cursor-pointer">
+              <input type="checkbox" name="days" value="Fr 18.06." checked class="peer sr-only">
+              <div class="glass-card-subtle p-3 rounded-xl border border-white/10 text-center peer-checked:border-cyan-400 peer-checked:bg-cyan-500/15 transition-all">
+                <span class="block text-xs text-zinc-400 uppercase font-mono">Fr, 18. Jun</span>
+                <span class="text-sm font-bold text-white peer-checked:text-cyan-300">Tag 2</span>
               </div>
-              <div class="text-sm font-bold text-white">18. Juni 2027</div>
-              <div class="text-[11px] text-slate-400">Freitag</div>
             </label>
 
-            <label class="cursor-pointer p-3.5 rounded-xl border border-slate-800 bg-slate-950/70 hover:border-slate-700 transition-all has-[:checked]:border-amber-400 has-[:checked]:bg-amber-500/15">
-              <div class="flex justify-between items-center mb-1">
-                <span class="text-[11px] font-mono font-bold text-amber-400">SA</span>
-                <input type="checkbox" name="days" value="sat" class="rounded bg-slate-900 border-slate-700 text-amber-500 focus:ring-0">
+            <label class="cursor-pointer">
+              <input type="checkbox" name="days" value="Sa 19.06." checked class="peer sr-only">
+              <div class="glass-card-subtle p-3 rounded-xl border border-white/10 text-center peer-checked:border-cyan-400 peer-checked:bg-cyan-500/15 transition-all">
+                <span class="block text-xs text-zinc-400 uppercase font-mono">Sa, 19. Jun</span>
+                <span class="text-sm font-bold text-white peer-checked:text-cyan-300">Tag 3</span>
               </div>
-              <div class="text-sm font-bold text-white">19. Juni 2027</div>
-              <div class="text-[11px] text-slate-400">Samstag</div>
             </label>
 
-            <label class="cursor-pointer p-3.5 rounded-xl border border-slate-800 bg-slate-950/70 hover:border-slate-700 transition-all has-[:checked]:border-amber-400 has-[:checked]:bg-amber-500/15">
-              <div class="flex justify-between items-center mb-1">
-                <span class="text-[11px] font-mono font-bold text-amber-400">SO</span>
-                <input type="checkbox" name="days" value="sun" class="rounded bg-slate-900 border-slate-700 text-amber-500 focus:ring-0">
+            <label class="cursor-pointer">
+              <input type="checkbox" name="days" value="So 20.06." checked class="peer sr-only">
+              <div class="glass-card-subtle p-3 rounded-xl border border-white/10 text-center peer-checked:border-cyan-400 peer-checked:bg-cyan-500/15 transition-all">
+                <span class="block text-xs text-zinc-400 uppercase font-mono">So, 20. Jun</span>
+                <span class="text-sm font-bold text-white peer-checked:text-cyan-300">Abreise</span>
               </div>
-              <div class="text-sm font-bold text-white">20. Juni 2027</div>
-              <div class="text-[11px] text-slate-400">Sonntag</div>
             </label>
           </div>
         </div>
 
-        <!-- 04: Städte Voting -->
-        <div class="glass-card rounded-2xl p-6 sm:p-7">
-          <div class="flex items-center gap-3 mb-2">
-            <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center font-mono font-bold text-xs">04</span>
-            <div>
-              <h3 class="text-base sm:text-lg font-bold text-white">Wohin soll die Reise gehen?</h3>
-              <p class="text-xs text-slate-400">Wähle deine Favoriten (Mehrfachauswahl möglich):</p>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-            
-            <!-- Valencia -->
-            <label class="cursor-pointer group flex flex-col p-4 rounded-2xl border border-slate-800 bg-slate-950/70 hover:border-amber-400/50 transition-all has-[:checked]:border-amber-400 has-[:checked]:bg-amber-500/10">
-              <div class="flex items-start justify-between mb-2">
-                <div class="flex items-center gap-2.5">
-                  <span class="text-2xl">🇪🇸</span>
-                  <div>
-                    <h4 class="font-bold text-white group-hover:text-amber-400 transition-colors">Valencia</h4>
-                    <span class="text-[11px] text-amber-400 font-mono">Spanien</span>
-                  </div>
+        <!-- 4. Städte-Voting -->
+        <div>
+          <label class="block text-sm font-semibold text-zinc-200 mb-2">Deine Favoriten-Stadt</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <label class="cursor-pointer">
+              <input type="radio" name="city" value="Valencia" checked class="peer sr-only">
+              <div class="glass-card-subtle p-4 rounded-xl border border-white/10 peer-checked:border-amber-400 peer-checked:bg-amber-500/15 transition-all">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-white peer-checked:text-amber-300">🇪🇸 Valencia</span>
+                  <i class="ph ph-sun text-amber-400 text-lg"></i>
                 </div>
-                <input type="checkbox" name="cities" value="valencia" class="rounded bg-slate-900 border-slate-700 text-amber-500 focus:ring-0 h-5 w-5 mt-1">
+                <p class="text-xs text-zinc-400 mt-1">Strand, Paella & Turia-Park, Rooftops</p>
               </div>
-              <p class="text-xs text-slate-300 leading-relaxed">
-                Strand, Tapas, Sonne, entspannte mediterrane Atmosphäre und faire Preise.
-              </p>
             </label>
 
-            <!-- San Sebastián & Bilbao -->
-            <label class="cursor-pointer group flex flex-col p-4 rounded-2xl border border-slate-800 bg-slate-950/70 hover:border-amber-400/50 transition-all has-[:checked]:border-amber-400 has-[:checked]:bg-amber-500/10">
-              <div class="flex items-start justify-between mb-2">
-                <div class="flex items-center gap-2.5">
-                  <span class="text-2xl">🇪🇸</span>
-                  <div>
-                    <h4 class="font-bold text-white group-hover:text-amber-400 transition-colors">San Sebastián & Bilbao</h4>
-                    <span class="text-[11px] text-amber-400 font-mono">Spanien</span>
-                  </div>
+            <label class="cursor-pointer">
+              <input type="radio" name="city" value="San Sebastián & Bilbao" class="peer sr-only">
+              <div class="glass-card-subtle p-4 rounded-xl border border-white/10 peer-checked:border-amber-400 peer-checked:bg-amber-500/15 transition-all">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-white peer-checked:text-amber-300">🇪🇸 San Sebastián & Bilbao</span>
+                  <i class="ph ph-waves text-cyan-400 text-lg"></i>
                 </div>
-                <input type="checkbox" name="cities" value="sansebastian" class="rounded bg-slate-900 border-slate-700 text-amber-500 focus:ring-0 h-5 w-5 mt-1">
+                <p class="text-xs text-zinc-400 mt-1">Weltklasse Pintxos, Atlantikküste, Kultur</p>
               </div>
-              <p class="text-xs text-slate-300 leading-relaxed">
-                Pintxos-Mekka am Atlantik, Stadtstrand La Concha und Option für einen Tagestrip nach Bilbao.
-              </p>
             </label>
 
-            <!-- Bologna -->
-            <label class="cursor-pointer group flex flex-col p-4 rounded-2xl border border-slate-800 bg-slate-950/70 hover:border-amber-400/50 transition-all has-[:checked]:border-amber-400 has-[:checked]:bg-amber-500/10">
-              <div class="flex items-start justify-between mb-2">
-                <div class="flex items-center gap-2.5">
-                  <span class="text-2xl">🇮🇹</span>
-                  <div>
-                    <h4 class="font-bold text-white group-hover:text-amber-400 transition-colors">Bologna</h4>
-                    <span class="text-[11px] text-amber-400 font-mono">Italien</span>
-                  </div>
+            <label class="cursor-pointer">
+              <input type="radio" name="city" value="Bologna" class="peer sr-only">
+              <div class="glass-card-subtle p-4 rounded-xl border border-white/10 peer-checked:border-amber-400 peer-checked:bg-amber-500/15 transition-all">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-white peer-checked:text-amber-300">🇮🇹 Bologna</span>
+                  <i class="ph ph-fork-knife text-rose-400 text-lg"></i>
                 </div>
-                <input type="checkbox" name="cities" value="bologna" class="rounded bg-slate-900 border-slate-700 text-amber-500 focus:ring-0 h-5 w-5 mt-1">
+                <p class="text-xs text-zinc-400 mt-1">Italiens Food-Hauptstadt, Piazza Maggiore</p>
               </div>
-              <p class="text-xs text-slate-300 leading-relaxed">
-                Italiens Genusshauptstadt, La Dolce Vita, legendäre Pasta, Wein und alles zu Fuss erreichbar.
-              </p>
             </label>
 
-            <!-- Lyon -->
-            <label class="cursor-pointer group flex flex-col p-4 rounded-2xl border border-slate-800 bg-slate-950/70 hover:border-amber-400/50 transition-all has-[:checked]:border-amber-400 has-[:checked]:bg-amber-500/10">
-              <div class="flex items-start justify-between mb-2">
-                <div class="flex items-center gap-2.5">
-                  <span class="text-2xl">🇫🇷</span>
-                  <div>
-                    <h4 class="font-bold text-white group-hover:text-amber-400 transition-colors">Lyon</h4>
-                    <span class="text-[11px] text-amber-400 font-mono">Frankreich</span>
-                  </div>
+            <label class="cursor-pointer">
+              <input type="radio" name="city" value="Lyon" class="peer sr-only">
+              <div class="glass-card-subtle p-4 rounded-xl border border-white/10 peer-checked:border-amber-400 peer-checked:bg-amber-500/15 transition-all">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-white peer-checked:text-amber-300">🇫🇷 Lyon</span>
+                  <i class="ph ph-wine text-purple-400 text-lg"></i>
                 </div>
-                <input type="checkbox" name="cities" value="lyon" class="rounded bg-slate-900 border-slate-700 text-amber-500 focus:ring-0 h-5 w-5 mt-1">
+                <p class="text-xs text-zinc-400 mt-1">Bouchons, Weinbars, Altstadt an Saône & Rhône</p>
               </div>
-              <p class="text-xs text-slate-300 leading-relaxed">
-                Frankreichs Genusshauptstadt, traditionelle Bouchons, Weinbars und lebendige Clubszene am Fluss.
-              </p>
             </label>
-
           </div>
         </div>
 
-        <!-- 05: Bemerkungen -->
-        <div class="glass-card rounded-2xl p-6 sm:p-7">
-          <div class="flex items-center gap-3 mb-4">
-            <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center font-mono font-bold text-xs">05</span>
-            <h3 class="text-base sm:text-lg font-bold text-white">Bemerkungen / Wünsche</h3>
-          </div>
-          <div>
-            <textarea id="user-notes" rows="3" placeholder="z. B. Zimmeraufteilung, Flugpräferenzen oder persönliche Grüsse..." class="glass-input w-full rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 text-sm transition-all"></textarea>
-          </div>
+        <!-- 5. Notizen / Bemerkung -->
+        <div>
+          <label for="notesInput" class="block text-sm font-semibold text-zinc-200 mb-2">Bemerkung / Idee (optional)</label>
+          <input 
+            type="text" 
+            id="notesInput" 
+            placeholder="z.B. komme erst Freitagabend nach..." 
+            class="glass-input w-full px-4 py-3 rounded-xl text-white placeholder-zinc-500"
+          >
         </div>
 
         <!-- Submit Button -->
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-          <div class="text-xs text-slate-400 flex items-center gap-2">
-            <i class="ph-bold ph-shield-check text-emerald-400 text-base"></i>
-            <span>Antwort wird sofort in der Auswertung erfasst.</span>
-          </div>
-
-          <button type="submit" id="submit-btn" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-bold tracking-wide shadow-[0_0_25px_rgba(245,158,11,0.3)] hover:shadow-[0_0_35px_rgba(245,158,11,0.5)] transition-all flex items-center justify-center gap-2 cursor-pointer">
-            <i class="ph-bold ph-paper-plane-right text-lg"></i>
-            <span>Stimme abschicken</span>
-          </button>
-        </div>
-
+        <button 
+          type="submit" 
+          id="submitBtn" 
+          class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-slate-950 font-bold tracking-wide text-base shadow-[0_0_25px_rgba(245,158,11,0.35)] hover:shadow-[0_0_35px_rgba(245,158,11,0.55)] transition-all flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <i class="ph ph-check-circle text-xl"></i>
+          <span>Stimme jetzt speichern</span>
+        </button>
       </form>
     </div>
+  </main>
 
-    <!-- VIEW 2: ERGEBNISSE & DASHBOARD -->
-    <div id="view-results" class="hidden space-y-6">
-
-      <!-- Action Banner -->
-      <div class="glass-card p-4 rounded-2xl flex flex-wrap items-center justify-between gap-3">
-        <div class="flex items-center gap-2 text-xs text-slate-300">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span>Live-Auswertung aktiv</span>
+  <!-- Live Auswertung & Städte-Zwischenstand -->
+  <section class="max-w-4xl mx-auto px-4 py-4">
+    <div class="glass-card rounded-3xl p-6 sm:p-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold text-white tracking-wide">Aktueller Stand</h2>
+          <p class="text-xs text-zinc-400">Live aus der Datenbank synchronisiert</p>
         </div>
-        <button onclick="copyWhatsAppReport()" class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-amber-400 border border-amber-500/30 text-xs font-mono font-bold flex items-center gap-2 transition-all cursor-pointer shadow-sm">
-          <i class="ph-bold ph-whatsapp-logo text-emerald-400 text-base"></i>
+        <button 
+          id="copySummaryBtn"
+          onclick="copyChatSummary()" 
+          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-amber-300 border border-amber-500/20 text-xs sm:text-sm font-semibold transition-all self-start sm:self-auto cursor-pointer"
+        >
+          <i class="ph ph-copy text-base"></i>
           <span>Zusammenfassung für Chat kopieren</span>
         </button>
       </div>
 
-      <!-- KPI Numbers -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div class="glass-card p-4 rounded-xl">
-          <div class="text-[11px] font-mono text-slate-400 uppercase">Rückmeldungen</div>
-          <div id="stat-total" class="text-3xl font-extrabold text-white mt-1">0</div>
+      <!-- Zähler-Kacheln -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+        <div class="glass-card-subtle p-4 rounded-2xl text-center border border-white/5">
+          <p class="text-2xl font-mono font-bold text-white" id="statTotal">0</p>
+          <p class="text-xs text-zinc-400 mt-0.5">Rückmeldungen</p>
         </div>
-        <div class="glass-card p-4 rounded-xl border-emerald-500/20">
-          <div class="text-[11px] font-mono text-emerald-400 uppercase">Fix debii 🔥</div>
-          <div id="stat-yes" class="text-3xl font-extrabold text-emerald-400 mt-1">0</div>
+        <div class="glass-card-subtle p-4 rounded-2xl text-center border border-white/5">
+          <p class="text-2xl font-mono font-bold text-emerald-400" id="statGoing">0</p>
+          <p class="text-xs text-zinc-400 mt-0.5">Fix debii</p>
         </div>
-        <div class="glass-card p-4 rounded-xl border-cyan-500/20">
-          <div class="text-[11px] font-mono text-cyan-400 uppercase">Unsicher 🤔</div>
-          <div id="stat-maybe" class="text-3xl font-extrabold text-cyan-400 mt-1">0</div>
+        <div class="glass-card-subtle p-4 rounded-2xl text-center border border-white/5">
+          <p class="text-2xl font-mono font-bold text-amber-400" id="statMaybe">0</p>
+          <p class="text-xs text-zinc-400 mt-0.5">50:50</p>
         </div>
-        <div class="glass-card p-4 rounded-xl border-rose-500/20">
-          <div class="text-[11px] font-mono text-rose-400 uppercase">Chan nöd 😢</div>
-          <div id="stat-no" class="text-3xl font-extrabold text-rose-400 mt-1">0</div>
-        </div>
-      </div>
-
-      <!-- Cities Ranking & Availability -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        
-        <!-- Städte-Voting Ranking -->
-        <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <i class="ph-bold ph-trophy text-amber-400"></i> Städte-Ranking
-              </h3>
-              <span class="text-[11px] font-mono text-slate-400">Stimmen</span>
-            </div>
-            <div id="city-ranking-list" class="space-y-4"></div>
-          </div>
-          <div class="mt-6 pt-3 border-t border-slate-800 text-[10px] text-slate-500 font-mono">
-            * Basis für die Auswahl der Unterkünfte
-          </div>
-        </div>
-
-        <!-- Tages-Matrix -->
-        <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <i class="ph-bold ph-calendar-check text-cyan-400"></i> Anwesenheit nach Tagen
-              </h3>
-              <span class="text-[11px] font-mono text-slate-400">Personen</span>
-            </div>
-            <div id="days-matrix-list" class="space-y-3"></div>
-          </div>
-          <div class="mt-6 pt-3 border-t border-slate-800 text-[10px] text-slate-500 font-mono">
-            * Zeitraum: 17.–20. Juni 2027
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Teilnehmer-Tabelle -->
-      <div class="glass-card p-6 rounded-2xl overflow-hidden">
-        <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
-          <i class="ph-bold ph-users text-amber-400"></i> Rückmeldungen
-        </h3>
-
-        <div class="overflow-x-auto -mx-6 px-6">
-          <table class="w-full text-left text-xs text-slate-300">
-            <thead class="text-[10px] font-mono uppercase text-slate-400 border-b border-slate-800">
-              <tr>
-                <th class="py-2.5 px-3">Name</th>
-                <th class="py-2.5 px-3">Status</th>
-                <th class="py-2.5 px-3">Tage</th>
-                <th class="py-2.5 px-3">Städte</th>
-                <th class="py-2.5 px-3">Bemerkungen</th>
-                <th class="py-2.5 px-3 text-right">Aktion</th>
-              </tr>
-            </thead>
-            <tbody id="participants-tbody" class="divide-y divide-slate-800/60"></tbody>
-          </table>
+        <div class="glass-card-subtle p-4 rounded-2xl text-center border border-white/5">
+          <p class="text-2xl font-mono font-bold text-red-400" id="statDeclined">0</p>
+          <p class="text-xs text-zinc-400 mt-0.5">Abgemeldet</p>
         </div>
       </div>
 
-    </div>
-
-  </main>
-
-  <!-- Delete Modal -->
-  <div id="delete-modal" class="fixed inset-0 z-50 bg-[#07090e]/85 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="glass-card max-w-sm w-full p-6 rounded-2xl border border-slate-700 text-center shadow-2xl">
-      <div class="w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center mx-auto mb-3 text-xl">
-        <i class="ph-bold ph-trash"></i>
+      <!-- Städte-Ranking -->
+      <div class="space-y-3 mb-8">
+        <h3 class="text-sm uppercase tracking-wider text-zinc-400 font-mono mb-2">Städte-Ranking</h3>
+        <div id="cityBars" class="space-y-2.5">
+          <!-- Dynamisch gerendert -->
+        </div>
       </div>
-      <h4 class="text-base font-bold text-white mb-2">Eintrag entfernen?</h4>
-      <p class="text-xs text-slate-300 mb-6 leading-relaxed">Möchtest du diese Stimme aus der Auswertung löschen?</p>
-      <div class="flex gap-2 justify-center">
-        <button onclick="handleDeleteAction(false)" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold cursor-pointer">Abbrechen</button>
-        <button onclick="handleDeleteAction(true)" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold cursor-pointer">Löschen</button>
+
+      <!-- Teilnehmerliste (Ohne Lösch-Button) -->
+      <div>
+        <h3 class="text-sm uppercase tracking-wider text-zinc-400 font-mono mb-3">Teilnehmerliste</h3>
+        <div id="participantsList" class="space-y-2">
+          <p class="text-zinc-500 text-sm italic py-4 text-center">Lade Einträge...</p>
+        </div>
       </div>
     </div>
-  </div>
-
-  <!-- In-App Notification Toast -->
-  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+  </section>
 
   <!-- Footer -->
-  <footer class="w-full border-t border-slate-800/80 bg-[#07090e] py-6 text-center text-xs text-slate-500 font-mono">
-    <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div>SVEN 4.0 • The Cities Trips Weekend (17.–20. Juni 2027)</div>
-      <div class="text-amber-400/80">Decide Our Destiny</div>
-    </div>
+  <footer class="max-w-4xl mx-auto px-4 py-8 text-center text-xs text-zinc-600 font-mono">
+    SVEN 4.0 • 17.–20. JUNI 2027 • POWERED BY SUPABASE
   </footer>
 
-  <!-- Firebase Integration & State Handler -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, doc, collection, onSnapshot, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+  <!-- App Skript & Supabase Anbindung -->
+  <script>
+    // Supabase Konfiguration
+    const SUPABASE_URL = 'https://kkwqenavdjqksubajmct.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtrd3FlbmF2ZGpxa3N1YmFqbWN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyODcxODksImV4cCI6MjEwODg2MzE4OX0.XUBDMVK4pKwSG_H9cPDNaG9jx2V_DaXuA1JAFL8-XCI';
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'sven-40-cities-trip';
-    let db = null;
-    let auth = null;
-    let isConnected = false;
+    let allVotes = [];
 
-    let localVotes = [
-      {
-        id: 'initial_sven',
-        name: 'Sven (Geburtstagskind)',
-        participation: 'yes',
-        days: ['thu', 'fri', 'sat', 'sun'],
-        cities: ['sansebastian', 'valencia', 'bologna'],
-        notes: 'Gang sicher scho ab em Donnschtig! Freu mi uf euch!',
-        timestamp: Date.now() - 86400000
+    // Countdown bis 30. November 2026, 23:59:59
+    function updateCountdown() {
+      const target = new Date(2026, 10, 30, 23, 59, 59).getTime();
+      const now = new Date().getTime();
+      const diff = target - now;
+
+      const countdownEl = document.getElementById('countdown');
+      if (diff <= 0) {
+        countdownEl.innerText = "Frist abgelaufen (30.11.2026)";
+        return;
       }
-    ];
 
-    try {
-      if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const app = initializeApp(firebaseConfig);
-        db = getFirestore(app);
-        auth = getAuth(app);
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 
-        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-          await signInWithCustomToken(auth, __initial_auth_token);
-        } else {
-          await signInAnonymously(auth);
-        }
+      countdownEl.innerText = `Noch ${days} Tage, ${hours} Std, ${minutes} Min bis Entscheid`;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
 
-        isConnected = true;
-        const votesRef = collection(db, 'artifacts', appId, 'public', 'data', 'votes');
-        onSnapshot(votesRef, (snapshot) => {
-          localVotes = [];
-          snapshot.forEach(docSnap => {
-            localVotes.push({ id: docSnap.id, ...docSnap.data() });
-          });
-          updateResultsUI(localVotes);
-        }, (error) => {
-          console.warn('Realtime fallback:', error);
-          updateResultsUI(localVotes);
-        });
-      } else {
-        updateResultsUI(localVotes);
+    // Stimmen aus Supabase laden
+    async function fetchVotes() {
+      try {
+        const { data, error } = await db
+          .from('votes')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        allVotes = data || [];
+        renderUI();
+      } catch (err) {
+        console.error("Fehler beim Laden:", err);
+        document.getElementById('participantsList').innerHTML = `
+          <div class="p-4 rounded-xl bg-red-950/30 border border-red-500/30 text-red-400 text-center text-xs">
+            Datenbank-Verbindung wird geladen... Bitte kurz warten oder Seite neu laden.
+          </div>
+        `;
       }
-    } catch (err) {
-      console.warn("Using offline storage mode:", err);
-      updateResultsUI(localVotes);
     }
 
-    window.handlePollSubmit = async function(e) {
-      e.preventDefault();
-      const submitBtn = document.getElementById('submit-btn');
-      const originalText = submitBtn.innerHTML;
+    // UI & Statistiken rendern
+    function renderUI() {
+      // 1. Zähler
+      const total = allVotes.length;
+      const going = allVotes.filter(v => v.status === 'Fix debii').length;
+      const maybe = allVotes.filter(v => v.status === 'No unsicher 50:50').length;
+      const declined = allVotes.filter(v => v.status === 'Chan leider nöd').length;
 
-      try {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = `<i class="ph-bold ph-spinner animate-spin text-lg"></i> <span>Speichert...</span>`;
+      document.getElementById('statTotal').innerText = total;
+      document.getElementById('statGoing').innerText = going;
+      document.getElementById('statMaybe').innerText = maybe;
+      document.getElementById('statDeclined').innerText = declined;
 
-        const nameInput = document.getElementById('user-name');
-        const notesInput = document.getElementById('user-notes');
-        const partInput = document.querySelector('input[name="participation"]:checked');
-        const daysInputs = Array.from(document.querySelectorAll('input[name="days"]:checked')).map(el => el.value);
-        const citiesInputs = Array.from(document.querySelectorAll('input[name="cities"]:checked')).map(el => el.value);
-
-        if (!nameInput.value.trim()) {
-          showNotification('Bitte Name eingeben.', 'error');
-          return;
-        }
-
-        if (!partInput) {
-          showNotification('Bist du dabei? Bitte Status wählen.', 'error');
-          return;
-        }
-
-        const newVote = {
-          name: nameInput.value.trim(),
-          participation: partInput.value,
-          days: daysInputs,
-          cities: citiesInputs,
-          notes: notesInput.value.trim(),
-          timestamp: Date.now()
-        };
-
-        if (isConnected && db) {
-          const docId = 'vote_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
-          const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'votes', docId);
-          await setDoc(docRef, newVote);
-        } else {
-          newVote.id = 'local_' + Date.now();
-          localVotes.unshift(newVote);
-          updateResultsUI(localVotes);
-        }
-
-        showNotification('Merci! Deine Rückmeldung wurde gespeichert.', 'success');
-        document.getElementById('poll-form').reset();
-        setTimeout(() => switchView('results'), 500);
-
-      } catch (err) {
-        showNotification('Fehler: ' + err.message, 'error');
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalText;
-      }
-    };
-
-    let itemToDelete = null;
-    window.confirmDelete = function(id) {
-      itemToDelete = id;
-      const modal = document.getElementById('delete-modal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    };
-
-    window.handleDeleteAction = async function(confirmed) {
-      const modal = document.getElementById('delete-modal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-
-      if (confirmed && itemToDelete) {
-        try {
-          if (isConnected && db) {
-            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'votes', itemToDelete);
-            await deleteDoc(docRef);
-          } else {
-            localVotes = localVotes.filter(v => v.id !== itemToDelete);
-            updateResultsUI(localVotes);
-          }
-          showNotification('Eintrag gelöscht.', 'info');
-        } catch (e) {
-          showNotification('Fehler beim Löschen: ' + e.message, 'error');
-        }
-      }
-      itemToDelete = null;
-    };
-
-    function updateResultsUI(votes) {
-      document.getElementById('nav-badge').textContent = votes.length;
-      document.getElementById('stat-total').textContent = votes.length;
-
-      const yesCount = votes.filter(v => v.participation === 'yes').length;
-      const maybeCount = votes.filter(v => v.participation === 'maybe').length;
-      const noCount = votes.filter(v => v.participation === 'no').length;
-
-      document.getElementById('stat-yes').textContent = yesCount;
-      document.getElementById('stat-maybe').textContent = maybeCount;
-      document.getElementById('stat-no').textContent = noCount;
-
-      const cityCounts = { valencia: 0, sansebastian: 0, bologna: 0, lyon: 0 };
-      const cityMeta = {
-        valencia: { name: 'Valencia', flag: '🇪🇸', color: 'bg-amber-400' },
-        sansebastian: { name: 'San Sebastián & Bilbao', flag: '🇪🇸', color: 'bg-orange-500' },
-        bologna: { name: 'Bologna', flag: '🇮🇹', color: 'bg-emerald-400' },
-        lyon: { name: 'Lyon', flag: '🇫🇷', color: 'bg-cyan-400' }
+      // 2. Städte-Ranking
+      const cityCounts = {
+        'Valencia': 0,
+        'San Sebastián & Bilbao': 0,
+        'Bologna': 0,
+        'Lyon': 0
       };
 
-      votes.forEach(v => {
-        (v.cities || []).forEach(c => {
-          if (cityCounts[c] !== undefined) cityCounts[c]++;
-        });
+      allVotes.forEach(v => {
+        if (v.status !== 'Chan leider nöd' && v.city && cityCounts.hasOwnProperty(v.city)) {
+          cityCounts[v.city]++;
+        }
       });
 
       const maxVotes = Math.max(...Object.values(cityCounts), 1);
-      const sortedKeys = Object.keys(cityCounts).sort((a,b) => cityCounts[b] - cityCounts[a]);
-
-      document.getElementById('city-ranking-list').innerHTML = sortedKeys.map((key, i) => {
-        const count = cityCounts[key];
-        const pct = Math.round((count / maxVotes) * 100);
-        const meta = cityMeta[key];
-        return `
-          <div>
-            <div class="flex justify-between items-center text-xs mb-1">
-              <span class="font-bold text-white flex items-center gap-1.5">
-                <span>${meta.flag}</span>
-                <span>${meta.name}</span>
-                ${i === 0 && count > 0 ? '<span class="text-[9px] px-1.5 py-0.2 rounded bg-amber-400/20 text-amber-300 font-mono">FAVORIT</span>' : ''}
-              </span>
-              <span class="font-mono text-slate-300 font-bold">${count} Stimmen</span>
+      const cityBarsHtml = Object.entries(cityCounts)
+        .sort((a, b) => b[1] - a[1])
+        .map(([city, count]) => {
+          const pct = Math.round((count / maxVotes) * 100);
+          return `
+            <div class="glass-card-subtle p-3 rounded-xl border border-white/5">
+              <div class="flex justify-between items-center text-xs font-semibold mb-1.5">
+                <span class="text-white">${city}</span>
+                <span class="font-mono text-amber-300">${count} Stimme${count === 1 ? '' : 'n'}</span>
+              </div>
+              <div class="w-full h-2 rounded-full bg-slate-900 overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-amber-500 to-amber-300 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+              </div>
             </div>
-            <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-800">
-              <div class="${meta.color} h-full rounded-full transition-all duration-700" style="width: ${count > 0 ? pct : 0}%"></div>
+          `;
+        }).join('');
+      document.getElementById('cityBars').innerHTML = cityBarsHtml;
+
+      // 3. Teilnehmerliste (OHNE Lösch-Button)
+      const listEl = document.getElementById('participantsList');
+      if (allVotes.length === 0) {
+        listEl.innerHTML = `<p class="text-zinc-500 text-sm italic py-4 text-center">Noch keine Stimmen eingetragen. Sei der Erste!</p>`;
+        return;
+      }
+
+      listEl.innerHTML = allVotes.map(entry => {
+        let statusBadge = '';
+        if (entry.status === 'Fix debii') {
+          statusBadge = '<span class="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold">Fix debii</span>';
+        } else if (entry.status === 'No unsicher 50:50') {
+          statusBadge = '<span class="px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold">50:50</span>';
+        } else {
+          statusBadge = '<span class="px-2 py-0.5 rounded-md bg-red-500/20 text-red-400 border border-red-500/30 text-xs font-bold">Nein</span>';
+        }
+
+        const daysFormatted = Array.isArray(entry.days) && entry.days.length > 0
+          ? entry.days.join(', ')
+          : 'Keine Tage gewählt';
+
+        return `
+          <div class="glass-card-subtle p-3.5 rounded-xl border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-white text-sm sm:text-base">${escapeHtml(entry.name)}</span>
+                ${statusBadge}
+              </div>
+              <p class="text-xs text-zinc-400 mt-1">
+                ${entry.city ? `<span class="text-amber-300 font-medium">Favorit: ${escapeHtml(entry.city)}</span> • ` : ''}
+                <span>${escapeHtml(daysFormatted)}</span>
+                ${entry.notes ? ` • <span class="italic text-zinc-300">„${escapeHtml(entry.notes)}“</span>` : ''}
+              </p>
             </div>
           </div>
         `;
       }).join('');
+    }
 
-      const daysCounts = { thu: 0, fri: 0, sat: 0, sun: 0 };
-      const daysMeta = {
-        thu: 'Donnerstag, 17. Juni',
-        fri: 'Freitag, 18. Juni',
-        sat: 'Samstag, 19. Juni',
-        sun: 'Sonntag, 20. Juni'
+    // Formular absenden & in Supabase schreiben
+    document.getElementById('voteForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const submitBtn = document.getElementById('submitBtn');
+      const originalHtml = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<span>Wird gespeichert...</span>`;
+
+      const name = document.getElementById('nameInput').value.trim();
+      const status = document.querySelector('input[name="status"]:checked')?.value || 'Fix debii';
+      const days = Array.from(document.querySelectorAll('input[name="days"]:checked')).map(cb => cb.value);
+      const city = document.querySelector('input[name="city"]:checked')?.value || '';
+      const notes = document.getElementById('notesInput')?.value.trim() || '';
+
+      if (!name) {
+        alert('Bitte gib deinen Namen ein.');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalHtml;
+        return;
+      }
+
+      try {
+        const { error } = await db.from('votes').insert([{
+          name: name,
+          status: status,
+          days: days,
+          city: city,
+          notes: notes
+        }]);
+
+        if (error) throw error;
+
+        // Formular zurücksetzen & neu laden
+        document.getElementById('voteForm').reset();
+        await fetchVotes();
+        alert('Danke! Deine Stimme wurde zentral gespeichert.');
+      } catch (err) {
+        console.error("Speicherfehler:", err);
+        alert('Fehler beim Speichern: ' + (err.message || 'Bitte kurz via Chat melden.'));
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalHtml;
+      }
+    });
+
+    // Chat-Zusammenfassung in die Zwischenablage kopieren
+    function copyChatSummary() {
+      const goingNames = allVotes.filter(v => v.status === 'Fix debii').map(v => v.name);
+      const maybeNames = allVotes.filter(v => v.status === 'No unsicher 50:50').map(v => v.name);
+
+      const cityCounts = {
+        'Valencia': 0,
+        'San Sebastián & Bilbao': 0,
+        'Bologna': 0,
+        'Lyon': 0
       };
-
-      votes.forEach(v => {
-        (v.days || []).forEach(d => {
-          if (daysCounts[d] !== undefined) daysCounts[d]++;
-        });
+      allVotes.forEach(v => {
+        if (v.status !== 'Chan leider nöd' && v.city && cityCounts.hasOwnProperty(v.city)) {
+          cityCounts[v.city]++;
+        }
       });
 
-      const maxDayVotes = Math.max(...Object.values(daysCounts), 1);
-      document.getElementById('days-matrix-list').innerHTML = Object.keys(daysCounts).map(d => {
-        const count = daysCounts[d];
-        const pct = Math.round((count / maxDayVotes) * 100);
-        return `
-          <div class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800/80">
-            <div class="flex justify-between text-xs mb-1">
-              <span class="text-white font-semibold">${daysMeta[d]}</span>
-              <span class="font-mono text-cyan-300 font-bold">${count} Personen</span>
-            </div>
-            <div class="w-full bg-slate-900 rounded-full h-1.5 overflow-hidden">
-              <div class="bg-gradient-to-r from-cyan-500 to-amber-500 h-full rounded-full" style="width: ${count > 0 ? pct : 0}%"></div>
-            </div>
-          </div>
-        `;
-      }).join('');
+      const ranking = Object.entries(cityCounts)
+        .sort((a, b) => b[1] - a[1])
+        .map(([city, count]) => `• ${city}: ${count} Stimmen`)
+        .join('\n');
 
-      const tbody = document.getElementById('participants-tbody');
-      if (votes.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-slate-500">Noch keine Rückmeldungen.</td></tr>`;
-        return;
-      }
+      const text = `🎉 SVEN 4.0 – Zwischenstand Städtetrip (17.–20. Juni 2027)\n\n` +
+        `✅ Fix debii (${goingNames.length}): ${goingNames.join(', ') || 'noch niemand'}\n` +
+        `🤔 50:50 (${maybeNames.length}): ${maybeNames.join(', ') || 'niemand'}\n\n` +
+        `🏙️ Städte-Ranking:\n${ranking}\n\n` +
+        `Link zum Abstimmen: https://gueissaz.github.io/Sven-40/`;
 
-      tbody.innerHTML = votes.map(v => {
-        let badge = '';
-        if (v.participation === 'yes') badge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Fix debii 🔥</span>`;
-        else if (v.participation === 'maybe') badge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">50:50 🤔</span>`;
-        else badge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">Chan nöd 😢</span>`;
-
-        const dFmt = (v.days || []).map(d => `<span class="px-1.5 py-0.2 rounded bg-slate-900 text-slate-300 border border-slate-800 text-[10px] font-mono mr-1">${d.toUpperCase()}</span>`).join('') || '<span class="text-slate-600">–</span>';
-        const cFmt = (v.cities || []).map(c => `<span class="px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 text-[10px] mr-1">${cityMeta[c]?.name || c}</span>`).join('') || '<span class="text-slate-600">–</span>';
-
-        return `
-          <tr class="hover:bg-slate-900/50 transition-colors">
-            <td class="py-3 px-3 font-bold text-white whitespace-nowrap">${escapeText(v.name)}</td>
-            <td class="py-3 px-3 whitespace-nowrap">${badge}</td>
-            <td class="py-3 px-3">${dFmt}</td>
-            <td class="py-3 px-3">${cFmt}</td>
-            <td class="py-3 px-3 text-slate-400 max-w-xs truncate" title="${escapeText(v.notes || '')}">${escapeText(v.notes || '–')}</td>
-            <td class="py-3 px-3 text-right">
-            </td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    window.copyWhatsAppReport = function() {
-      if (localVotes.length === 0) {
-        showNotification('Noch keine Daten vorhanden.', 'info');
-        return;
-      }
-
-      const confirmed = localVotes.filter(v => v.participation === 'yes').map(v => v.name);
-      const maybe = localVotes.filter(v => v.participation === 'maybe').map(v => v.name);
-
-      const cityCounts = { valencia: 0, sansebastian: 0, bologna: 0, lyon: 0 };
-      localVotes.forEach(v => {
-        (v.cities || []).forEach(c => { if (cityCounts[c] !== undefined) cityCounts[c]++; });
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('copySummaryBtn');
+        const orig = btn.innerHTML;
+        btn.innerHTML = `<i class="ph ph-check text-emerald-400 text-base"></i><span class="text-emerald-400">Kopiert!</span>`;
+        setTimeout(() => btn.innerHTML = orig, 2500);
+      }).catch(() => {
+        alert('Kopieren fehlgeschlagen. Bitte manuell markieren.');
       });
-
-      const text = `SVEN 4.0 – THE CITIES TRIPS WEEKEND (17.–20. Juni 2027)\n\n` +
-        `Status: ${localVotes.length} Rückmeldungen\n` +
-        `• Fix debii (${confirmed.length}): ${confirmed.join(', ') || 'noch niemand'}\n` +
-        `• Unsicher 50:50 (${maybe.length}): ${maybe.join(', ') || 'niemand'}\n\n` +
-        `Städte-Voting:\n` +
-        `• 🇪🇸 Valencia: ${cityCounts.valencia} Stimmen\n` +
-        `• 🇪🇸 San Sebastián & Bilbao: ${cityCounts.sansebastian} Stimmen\n` +
-        `• 🇮🇹 Bologna: ${cityCounts.bologna} Stimmen\n` +
-        `• 🇫🇷 Lyon: ${cityCounts.lyon} Stimmen\n\n` +
-        `Anmeldefrist: Bitte bis Ende November 2026 eintragen!`;
-
-      const tempArea = document.createElement('textarea');
-      tempArea.value = text;
-      document.body.appendChild(tempArea);
-      tempArea.select();
-      document.execCommand('copy');
-      document.body.removeChild(tempArea);
-
-      showNotification('Zusammenfassung in die Zwischenablage kopiert!', 'success');
-    };
-
-    function escapeText(s) {
-      if (!s) return '';
-      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-    }
-  </script>
-
-  <!-- UI & Fallback Logic -->
-  <script>
-    function handleImageFallback(imgEl) {
-      imgEl.style.display = 'none';
-      const vectorPoster = document.getElementById('hero-vector-poster');
-      if (vectorPoster) {
-        vectorPoster.classList.remove('hidden');
-      }
     }
 
-    function switchView(view) {
-      const voteSec = document.getElementById('view-vote');
-      const resSec = document.getElementById('view-results');
-      const navVote = document.getElementById('nav-vote');
-      const navRes = document.getElementById('nav-results');
-
-      if (view === 'vote') {
-        voteSec.classList.remove('hidden');
-        resSec.classList.add('hidden');
-        navVote.className = "px-3.5 py-1.5 rounded-lg text-white bg-gradient-to-r from-amber-500 to-orange-600 flex items-center gap-1.5 shadow-md cursor-pointer";
-        navRes.className = "px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer";
-      } else {
-        voteSec.classList.add('hidden');
-        resSec.classList.remove('hidden');
-        navRes.className = "px-3.5 py-1.5 rounded-lg text-white bg-gradient-to-r from-amber-500 to-orange-600 flex items-center gap-1.5 shadow-md cursor-pointer";
-        navVote.className = "px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer";
-      }
+    // XSS-Schutz
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
     }
 
-    // Countdown bis Ende November 2026
-    function updateCountdownDisplay() {
-      const targetDate = new Date(2026, 10, 30, 23, 59, 59).getTime();
-      const now = new Date().getTime();
-      const diff = targetDate - now;
-
-      const countdownEl = document.getElementById('countdown-timer');
-      if (!countdownEl) return;
-
-      if (diff <= 0) {
-        countdownEl.innerHTML = '<span class="text-rose-400">Anmeldefrist beendet</span>';
-        return;
-      }
-
-      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
-      countdownEl.innerHTML = `${d} Tage (${h}h ${m}m)`;
-    }
-
-    setInterval(updateCountdownDisplay, 30000);
-    updateCountdownDisplay();
-
-    // In-App Toast
-    function showNotification(msg, type = 'info') {
-      const container = document.getElementById('toast-container');
-      const toast = document.createElement('div');
-
-      let icon = '<i class="ph-bold ph-info text-cyan-400 text-lg"></i>';
-      let border = 'border-slate-700';
-
-      if (type === 'success') {
-        icon = '<i class="ph-bold ph-check-circle text-emerald-400 text-lg"></i>';
-        border = 'border-emerald-500/50 bg-[#0c101c]';
-      } else if (type === 'error') {
-        icon = '<i class="ph-bold ph-warning text-rose-400 text-lg"></i>';
-        border = 'border-rose-500/50 bg-[#0c101c]';
-      } else {
-        border = 'border-amber-500/40 bg-[#0c101c]';
-      }
-
-      toast.className = `glass-card pointer-events-auto p-4 rounded-xl border ${border} shadow-2xl flex items-center gap-3 text-xs font-medium text-white max-w-sm transition-all transform translate-y-3 opacity-0 duration-300`;
-      toast.innerHTML = `${icon} <span class="flex-grow">${msg}</span>`;
-
-      container.appendChild(toast);
-
-      setTimeout(() => {
-        toast.classList.remove('translate-y-3', 'opacity-0');
-      }, 20);
-
-      setTimeout(() => {
-        toast.classList.add('opacity-0', 'translate-x-4');
-        setTimeout(() => toast.remove(), 350);
-      }, 4000);
-    }
+    // Beim Laden Daten abholen
+    document.addEventListener('DOMContentLoaded', fetchVotes);
   </script>
 </body>
 </html>
